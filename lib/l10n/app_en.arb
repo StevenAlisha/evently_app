@@ -1,0 +1,19 @@
+{
+     "language":"Language",
+     "english":"English",
+     "arabic":"Arabic",
+     "theme":"Theme",
+     "dark":"Dark",
+     "light":"Light",
+     "logout":"Logout",
+     "sport":"Sport",
+     "birthday":"Birthday",
+     "meeting":"Meeting",
+     "gaming":"Gaming",
+     "workshop":"WorkShop",
+     "boolclub":"Bool Club",
+     "exhibition":"Exhibition",
+     "holiday":"Holiday",
+     "eating":"Eating",
+      "all":"All"
+}
