@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently_app/model/usersModel.dart';
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../model/eventmodel.dart';
 import '../utls/frebase_utls.dart';
+import '../widgets/toastWidgets.dart';
 
 class EventListProvider extends ChangeNotifier{
   List<Event>eventList=[];
   List<Event>filterEventList=[];
   List<String>eventsNameList = [
   ];
+  List<Event>favoriteList=[];
   int selectedIndex=0;
   List<String>getEventListName(BuildContext context){
     return eventsNameList = [
@@ -26,9 +29,10 @@ class EventListProvider extends ChangeNotifier{
     ];
 
   }
-  void getAllEvents()async {
-    QuerySnapshot<Event> snapshot= await FirebaseUtls.getEventCollection().where(
-        'event_name',isEqualTo: eventsNameList[selectedIndex]).orderBy('event_date').get();
+
+
+  void getAllEvents(String uID)async {
+    QuerySnapshot<Event> snapshot= await FirebaseUtls.getEventCollection(uID).orderBy('event_date').get();
     eventList=  snapshot.docs.map((doc)  {
       return doc.data();
     } ,).toList();
@@ -36,10 +40,10 @@ class EventListProvider extends ChangeNotifier{
          notifyListeners();
   }
 
-  void getFilterEventList()async{
-    var querySnapshot= await FirebaseUtls.getEventCollection().where(
+  void getFilterEventList(String uID)async{
+    var querySnapshot= await FirebaseUtls.getEventCollection(uID).where(
         'event_name',isEqualTo: eventsNameList[selectedIndex]).get();
-    querySnapshot.docs.map((doc){
+    filterEventList=querySnapshot.docs.map((doc){
       return doc.data();
     }
     ).toList();
@@ -47,21 +51,30 @@ class EventListProvider extends ChangeNotifier{
 
   }
 
-  void getFilterEventFromFirestore()async{
-    var querySnapshot=await FirebaseUtls.getEventCollection().where(
-        'event_name',isEqualTo: eventsNameList[selectedIndex]).orderBy('event_date').get();
-    filterEventList= querySnapshot.docs.map((docs) {
-      return docs.data();
-    },).toList();
-    notifyListeners();
-  }
-
- void changeSelectedIndex(int newSelectedIndex){
+ void changeSelectedIndex(int newSelectedIndex,String uID) {
     selectedIndex=newSelectedIndex;
-    selectedIndex==0?getAllEvents():getFilterEventList();
-    notifyListeners();
-
+      selectedIndex==0? getAllEvents(uID):getFilterEventList(uID);
+notifyListeners();
  }
+ 
+ void updateIsFavorite(Event event,String uID){
+    FirebaseUtls.getEventCollection(uID).doc(event.id).update({'is_favorite':!event.isFavorite}).then((value) =>  ToastWidget.shoeToastMsg(message: 'done'));
+    selectedIndex==0? getAllEvents(uID):getFilterEventList(uID);
+    getFavoriteEvent(uID);
+    notifyListeners();
+ }
+ void getFavoriteEvent(String uID)async{
+   var querySnapshot=await FirebaseUtls.getEventCollection(uID).get();
+   eventList=querySnapshot.docs.map((doc){
+     return doc.data();
+   }).toList();
+   favoriteList=eventList.where((event){
+    return event.isFavorite==true;
+   }).toList();
+   notifyListeners();
+ }
+
+
 
 
 

@@ -1,5 +1,6 @@
 
 import 'package:evently_app/provider/eventListProvider.dart';
+import 'package:evently_app/provider/userProvider.dart';
 import 'package:evently_app/utls/App_Styles.dart';
 import 'package:evently_app/utls/appcolors.dart';
 import 'package:evently_app/utls/appimages.dart';
@@ -13,6 +14,7 @@ import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
 import '../model/eventmodel.dart';
+import '../widgets/toastWidgets.dart';
 import 'event_tab_icon.dart';
 
 class AddEvent extends StatefulWidget {
@@ -22,8 +24,10 @@ class AddEvent extends StatefulWidget {
   State<AddEvent> createState() => _AddEventState();
 }
 
+
 class _AddEventState extends State<AddEvent> {
  late EventListProvider eventListProvider;
+ late UserProvider userProvider;
   int selectedIndex = 0;
   DateTime ? selectedDate;
   TimeOfDay ? selectedTime;
@@ -52,10 +56,11 @@ String selectedImage='';
     void initState(){
       super.initState();
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        eventListProvider.getAllEvents();
+        eventListProvider.getAllEvents(userProvider.currentUser!.id);
       },);
     }
     eventListProvider = Provider.of<EventListProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
     var height = MediaQuery
         .of(context)
         .size
@@ -374,18 +379,17 @@ String selectedImage='';
           eventImage: selectedImage,
           eventTime: selectedTime.toString()
       );
-      FirebaseUtls.addEventCollection(event).timeout(Duration(seconds: 1),
-          onTimeout: () {
-            // eventListProvider.getAllEvents();
-            Navigator.pop(context);
-          }
+      FirebaseUtls.addEventCollection(event,userProvider.currentUser!.id).then((value){
+        ToastWidget.shoeToastMsg(message: 'Event Added Successfully');
+        // eventListProvider.getAllEvents();
+        Navigator.pop(context);
+      });
 
-      );
     }
   }
  void dispose(){
     super.dispose();
 
-    eventListProvider.getAllEvents();
+    eventListProvider.getAllEvents(userProvider.currentUser!.id);
  }
 }

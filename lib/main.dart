@@ -3,6 +3,7 @@ import 'package:evently_app/auth/loginScreen.dart';
 import 'package:evently_app/auth/registerScreen.dart';
 import 'package:evently_app/provider/app_theme_provider.dart';
 import 'package:evently_app/provider/eventListProvider.dart';
+import 'package:evently_app/provider/userProvider.dart';
 import 'package:evently_app/tabs/add_event.dart';
 import 'package:evently_app/tabs/profiletab.dart';
 import 'package:evently_app/introdction_Screen.dart';
@@ -29,12 +30,13 @@ void main()async {
 
   final languageProvider=AppLanguageProvider();
   languageProvider.loadLanguage();
-  await FirebaseFirestore.instance.disableNetwork();
+  // await FirebaseFirestore.instance.disableNetwork();
   runApp(
       MultiProvider(providers: [
         ChangeNotifierProvider(create: (context)=>AppLanguageProvider(),),
         ChangeNotifierProvider(create: (context)=>AppThemeProvider(),),
-        ChangeNotifierProvider(create: (context)=>EventListProvider(),)
+        ChangeNotifierProvider(create: (context)=>EventListProvider(),),
+        ChangeNotifierProvider(create: (context)=>UserProvider(),)
       ],
       child: const MyApp()));
 }

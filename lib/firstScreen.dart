@@ -67,14 +67,12 @@ class _logoutScreenState extends State<logoutScreen> {
 
                Spacer(),
                AnimatedToggleSwitch<String>.dual(
-
                current: current,
                first: 'EG',
                second: 'US',
                indicatorAnimationType: AnimationType.onHover,
                indicatorSize:   Size.fromWidth(20),
                height: 40,
-               // <-- هنا SimpleIconBuilder: فقط (value)
                iconBuilder: (value) {
                return Padding(
                padding: const EdgeInsets.all(1.0),
@@ -102,7 +100,7 @@ class _logoutScreenState extends State<logoutScreen> {
              ),
 
 
-             SizedBox(height: height*0.04,),
+             SizedBox(height: height*0.02,),
              Customelevatedbuttom(
                onPressed: (){Navigator.of(context).pushNamed(Approuts.intro_screen);},elevatedcolor: AppColors.Primarycolorlight,elevatedchild: Text('Lets Start',style: AppStyles.medium20white,),)
          ],),

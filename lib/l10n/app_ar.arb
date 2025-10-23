@@ -15,7 +15,17 @@
   "exhibition":"المعرض",
   "holiday":"الاجازه",
   "eating":"الاكل",
-    "all":"الكل"
+  "all":"الكل",
+  "email":"البريد الالكتروني",
+  "password":"كلمة المرور",
+  "login":"تسجيل دخول",
+  "forget_password":"نسيت كلمه المرور ؟",
+  "create_account":"انشئ حساب",
+  "or":"او",
+  "login_w_google":"تسجيل الدخول بواسطة جوجل",
+  "dont_ha_account":" ليس لديك حساب؟",
+  "name":"الاسم",
+  "already_have_account":"لديك حساب بالفعل ؟"
 
 
 }

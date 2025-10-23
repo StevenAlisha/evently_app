@@ -15,5 +15,15 @@
      "exhibition":"Exhibition",
      "holiday":"Holiday",
      "eating":"Eating",
-      "all":"All"
+     "all":"All",
+   "email":" Email  ",
+    "password":"Password",
+    "login":"Login",
+    "forget_password":"Forget Password",
+    "create_account":"Create Account",
+    "or":"Or",
+    "login_w_google":"Login With Google",
+    "dont_ha_account":"Don't Have Account?",
+    "name":"Name",
+       "already_have_account":"Already Have Account"
 }

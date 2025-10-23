@@ -1,14 +1,25 @@
+import 'package:evently_app/provider/eventListProvider.dart';
+import 'package:evently_app/provider/userProvider.dart';
 import 'package:evently_app/widgets/customtextfield.dart';
+import 'package:evently_app/widgets/eventItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
 import '../utls/App_Styles.dart';
 import '../utls/appcolors.dart';
 import '../utls/appimages.dart';
 
-class LoveTab extends StatelessWidget {
+class LoveTab extends StatefulWidget {
     LoveTab({super.key});
-    var favoriteController=TextEditingController();
+
+  @override
+  State<LoveTab> createState() => _LoveTabState();
+}
+
+class _LoveTabState extends State<LoveTab> {
+    TextEditingController favoriteController = TextEditingController();
+
   List<String>images=[
     AppAssets.birthdayim,
     AppAssets.book_clubim,
@@ -21,10 +32,22 @@ class LoveTab extends StatelessWidget {
     AppAssets.workshopim,
 
   ];
+    @override
+  void initState(){
+      super.initState();
+      WidgetsBinding.instance.addPostFrameCallback((timeStop){
+        eventListProvider.getFavoriteEvent(userProvider.currentUser!.id);
+      });
+
+    }
+late EventListProvider eventListProvider;
+    late UserProvider userProvider ;
   @override
   Widget build(BuildContext context) {
+  eventListProvider=Provider.of<EventListProvider>(context);
+userProvider =Provider.of<UserProvider>(context);
     var height=MediaQuery.of(context).size.height;
-    var width=MediaQuery.of(context).size.width;
+
     return     SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -43,53 +66,10 @@ class LoveTab extends StatelessWidget {
 
 
             Expanded(child: ListView.separated(itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Stack(
-
-                  children: [
-                    Container(
-                      height: height*0.250,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          image: DecorationImage(image: AssetImage(images[index]))),),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: width*0.02,vertical: height*0.01),
-                      padding: EdgeInsets.symmetric(horizontal:  width*0.022 ),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.Primarycolorlight,width: 2),
-                          color: AppColors.white,borderRadius:BorderRadius.circular(8)),
-                      child:Column(
-                        children: [
-                          Text('22',style: AppStyles.bold20blue,),
-                          Text('NOV',style: AppStyles.bold14primary,),
-                        ],
-                      )
-                      ,),
-                    Container(
-                      margin:   EdgeInsets.only(top: height*0.19,left: width*0.01,right: width*0.01),
-                      padding: EdgeInsets.symmetric(horizontal: width*0.01),
-                      height: height*0.04,
-                      decoration: BoxDecoration(
-
-                          color: AppColors.white,borderRadius:BorderRadius.circular(8)),
-                      child:Row(
-
-                        children: [
-
-                          Text('This is birthday',style: AppStyles.bold20black,),
-                          Spacer(),
-                          Image.asset(AppAssets.iconlove)
-                        ],
-
-                      )
-                      ,),
-                  ],
-                ),
-              );
+              return  Eventitem(event: eventListProvider.favoriteList[index]);
             }, separatorBuilder: (context, index) {
               return SizedBox(height: height*0.01,);
-            },itemCount: images.length)),
+            },itemCount:eventListProvider.favoriteList.length )),
           ],
         ),
       ),

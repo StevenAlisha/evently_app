@@ -38,6 +38,7 @@ static const String googleicon='assets/images/googleicon.png';
 static const String locationicon='assets/images/locationicon.png';
 static const String dateicon='assets/images/dateicon.png';
 static const String timeicon='assets/images/timeicon.png';
+static const String iconloveSolid='assets/images/iconloveSolid.png';
 
 
 }

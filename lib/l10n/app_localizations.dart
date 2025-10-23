@@ -199,6 +199,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All'**
   String get all;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **' Email  '**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @forget_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Forget Password'**
+  String get forget_password;
+
+  /// No description provided for @create_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get create_account;
+
+  /// No description provided for @or.
+  ///
+  /// In en, this message translates to:
+  /// **'Or'**
+  String get or;
+
+  /// No description provided for @login_w_google.
+  ///
+  /// In en, this message translates to:
+  /// **'Login With Google'**
+  String get login_w_google;
+
+  /// No description provided for @dont_ha_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t Have Account?'**
+  String get dont_ha_account;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @already_have_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Already Have Account'**
+  String get already_have_account;
 }
 
 class _AppLocalizationsDelegate

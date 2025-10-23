@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/l10n/app_localizations.dart';
+import 'package:evently_app/model/usersModel.dart';
 import 'package:evently_app/provider/eventListProvider.dart';
+import 'package:evently_app/provider/userProvider.dart';
 import 'package:evently_app/tabs/event_tab_icon.dart';
 import 'package:evently_app/utls/App_Styles.dart';
 import 'package:evently_app/utls/appcolors.dart';
@@ -22,6 +24,7 @@ class Hometab extends StatefulWidget {
   State<Hometab> createState() => _HometabState();
 }
  late EventListProvider eventListProvider;
+late UserProvider userProvider;
 class _HometabState extends State<Hometab> {
 
 @override
@@ -29,17 +32,17 @@ class _HometabState extends State<Hometab> {
  super.initState();
  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
 
-   eventListProvider.getAllEvents();
+   eventListProvider.getAllEvents(userProvider.currentUser!.id);
 
  },);
 }
-@override
+
 
   @override
   Widget build(BuildContext context) {
-
+    userProvider= Provider.of<UserProvider>(context);
      eventListProvider= Provider.of<EventListProvider>(context);
-   eventListProvider.getAllEvents();
+  userProvider= Provider.of<UserProvider>(context);
      eventListProvider.getEventListName(context);
 
  var height=MediaQuery.of(context).size.height;
@@ -56,7 +59,7 @@ class _HometabState extends State<Hometab> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
               Text('Welcome Back',style: AppStyles.regular14white,),
-              Text('Steven Alisha',style: AppStyles.bold24white,),
+              Text(userProvider.currentUser!.name,style: AppStyles.bold24white,),
             ],
             ),
             Row(
@@ -94,12 +97,12 @@ class _HometabState extends State<Hometab> {
               SizedBox(width: width*0.01,),
               Text('Cairo , Egypt',style: AppStyles.regular14white,)
             ],),
+
             DefaultTabController(
               length: eventListProvider. eventsNameList.length,
               child: TabBar(
                   onTap: (index){
-                eventListProvider.changeSelectedIndex(index);
-
+                eventListProvider.changeSelectedIndex(index,userProvider.currentUser!.id);
                     },
                   tabAlignment: TabAlignment.start,
                   isScrollable: true,

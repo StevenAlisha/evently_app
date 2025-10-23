@@ -31,7 +31,7 @@ class _ThemeButtomSheetState extends State<ThemeButtomSheet> {
 
               GestureDetector(
                   onTap: (){
-                    //todo: change langage to ar
+
                     themeProvider.changeTheme(ThemeMode.dark);
 
                   },
@@ -46,7 +46,7 @@ class _ThemeButtomSheetState extends State<ThemeButtomSheet> {
 
               GestureDetector(
                 onTap: (){
-                  //todo: change langage to ar
+
                   themeProvider.changeTheme(ThemeMode.light);
 
                 },

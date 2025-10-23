@@ -1,3 +1,4 @@
+import 'package:evently_app/provider/userProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,17 +13,24 @@ import '../utls/approute.dart';
 import '../widgets/language_buttom_sheet.dart';
 import '../widgets/theme_button Sheet.dart';
 
-class ProfileTab extends StatelessWidget {
+class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
 
+  @override
+  State<ProfileTab> createState() => _ProfileTabState();
+}
 
+class _ProfileTabState extends State<ProfileTab> {
+ late UserProvider userProvider;
 
   @override
   Widget build(BuildContext context) {
+      userProvider=Provider.of<UserProvider>(context);
     var height=MediaQuery.of(context).size.height;
     var width=MediaQuery.of(context).size.width;
     var appLanguage=Provider.of<AppLanguageProvider>(context);
     var appTheme=Provider.of<AppThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -36,11 +44,11 @@ class ProfileTab extends StatelessWidget {
               child: Column(children: [
                 Text(
                   overflow: TextOverflow.ellipsis,
-                  'Steven Alisha',style: AppStyles.medium20white,),
+                  userProvider.currentUser!.name,style: AppStyles.medium20white,),
                 Text(
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  'stevenalisha@gmail.com',style: AppStyles.medium16black,),
+                 userProvider.currentUser!.email,style: AppStyles.medium16black,),
 
               ],),
             )
@@ -134,7 +142,7 @@ class ProfileTab extends StatelessWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(16)),
                     backgroundColor: Colors.red),
                 onPressed: (){
-                  Navigator.of(context).pushNamed(Approuts.loginscreen);
+                  Navigator.of(context).pushNamedAndRemoveUntil(Approuts.loginscreen,(route) => false,);
 
                 }, child:Row(
               children: [
@@ -154,6 +162,7 @@ class ProfileTab extends StatelessWidget {
 
     );
   }
+
   void showLanguageBottomSheet(BuildContext context) {
     showModalBottomSheet(context: context, builder:(context) => LanguageButtomSheet(),
 
